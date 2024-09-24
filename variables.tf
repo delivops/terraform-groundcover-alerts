@@ -1,33 +1,41 @@
-variable "client_name" {
-  type        = string
-  description = "client_name"
-}
-variable "cluster_name" {
-  type        = string
-  description = "cluster name"
-}
 variable "service_account" {
+  description = "Service account for the alerts"
   type        = string
-  description = "generated service account"
 }
 
-variable "contact_point_name" {
+variable "client_name" {
+  description = "Name of the client"
   type        = string
-  description = "contact_point_name"
-  default     = "opsgenie"
 }
-variable "folder_name" {
+
+variable "cluster_name" {
+  description = "Name of the cluster"
   type        = string
-  description = "folder name"
-  default     = "custom alerts"
+}
+
+variable "folder_name" {
+  description = "Name of the Grafana folder"
+  type        = string
+}
+
+variable "slack_points" {
+  description = "List of Slack webhook URLs"
+  type        = list(string)
+  default     = []
+}
+
+variable "email_points" {
+  description = "List of email addresses"
+  type        = list(string)
+  default     = []
 }
 variable "alerts" {
-  description = "List of alert configurations"
-  type = list(object({
-    type      = string
-    threshold = number
-    severity  = string
-    contact   = string
-  }))
+  description = "List of alert names and expressions"
+  type = list(
+    object({
+      name = string
+      expr = string
+    })
+  )
 }
 
