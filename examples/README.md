@@ -16,7 +16,7 @@ The module will create Grafana alert rules for AWS RDS instances. You can use th
 
 
 module "delivops_rds_alerts" {
-  source          = "delivops/rds-alerts/groundcover"
+  source          = "delivops/rds/groundcover"
   version         = "0.0.2"
   service_account = var.service_account
   client_name     = "client1"
