@@ -1,4 +1,4 @@
-# terraform-aws-rds-alerts
+# terraform-groundcover-alerts
 This Terraform module provisions alerts rules using Grafana for monitoring and notification purposes. The module allows you to create dynamic alerts based on various performance metrics of your resources and instances, helping you to proactively manage and respond to potential issues in your environment.
 
 ## Installation
@@ -84,7 +84,7 @@ No modules.
 
 ## information
 
-1. Time to create a rds-alert-rules is around 2 minutes.
+1. Time to create a alert-rules is around 5 minutes.
 
 ## License
 
