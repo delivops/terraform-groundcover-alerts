@@ -11,11 +11,20 @@ resource "grafana_contact_point" "combined" {
       url                     = slack.value
       disable_resolve_message = true
       title                   = " :fire: {{ .CommonLabels.alertname }}"
-      text                    = "{{ len .Alerts }} instances\n {{ range .Alerts }}{{ if or .Labels.pod .Labels.pod_name .Labels.entity_name .Labels.name  }}*Name:* {{ or .Labels.pod .Labels.pod_name .Labels.entity_name .Labels.name  }}\n{{ end }}{{ end }}"
+      text                    = "{{ len .Alerts }} instances\n {{ range .Alerts }}{{ if or .Labels.pod .Labels.pod_name .Labels.entity_name .Labels.name  }}*Name:* {{ or .Labels.pod .Labels.pod_name .Labels.entity_name .Labels.name  }}\n *Value:* {{ $value }}\n *Value:* {{ .Labels.Value }}\n\n{{ end }}{{ end }}"
     }
   }
   #{{ if .CommonLabels.namespace }} on: {{ .CommonLabels.namespace }}{{ end }}{{ if .CommonLabels.node }} node: {{ .CommonLabels.node }}{{ end }}{{ if .CommonLabels.workload }}/{{ .CommonLabels.workload }}{{ end }}"
-
+  dynamic "opsgenie" {
+    for_each = var.opsgenie_points
+    content {
+      api_key           = opsgenie.value
+      url               = "https://api.opsgenie.com/v2/alerts"
+      description       = "${var.client_name} :fire: {{ len .Alerts }} {{ .CommonLabels.alertname }}{{ if .CommonLabels.namespace }} on: {{ .CommonLabels.namespace }}{{ end }}{{ if .CommonLabels.node }} node: {{ .CommonLabels.node }}{{ end }}{{ if .CommonLabels.workload }}/{{ .CommonLabels.workload }}{{ end }}"
+      send_tags_as      = "tags"
+      override_priority = true
+    }
+  }
   dynamic "email" {
     for_each = var.email_points
     content {
@@ -59,11 +68,11 @@ resource "grafana_rule_group" "alerts" {
           refId         = "A"
         })
       }
-
       annotations = {}
-
-      labels = {}
-
+      labels = {
+        severity    = rule.value.severity
+        og_priority = local.severity_map[rule.value.severity]
+      }
       notification_settings {
         contact_point   = grafana_contact_point.combined.name
         group_by        = ["alertname", "workload", "node", "namespace"]

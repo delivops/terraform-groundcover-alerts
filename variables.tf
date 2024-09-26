@@ -23,6 +23,11 @@ variable "slack_points" {
   type        = list(string)
   default     = []
 }
+variable "opsgenie_points" {
+  description = "List of opsgenie API keys"
+  type        = list(string)
+  default     = []
+}
 
 variable "email_points" {
   description = "List of email addresses"
@@ -35,6 +40,7 @@ variable "alerts" {
     object({
       name = string
       expr = string
+      severity = string
     })
   )
 }

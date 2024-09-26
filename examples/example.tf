@@ -1,15 +1,19 @@
-module "client_all_alerts" {
+
+module "all_alerts" {
   source          = "delivops/alerts/groundcover"
-  version         = "0.0.5"
+  version         = "0.0.6"
   service_account = var.service_account
-  client_name     = "deli"
+  client_name     = "delivops"
   cluster_name    = "prod"
   folder_name     = "Alerts"
-  slack_points    = ["xxxx"]
-  email_points    = ["xxxx@gmail.com"]
+  opsgenie_points = [var.ops_genie_api_key]
+  slack_points    = ["xxx"]
+  email_points    = ["osnat@gmail.com"]
   alerts = [
-  { name = "High CPU Utilization in RDS", expr = "max by (name, namespace, node) (aws_rds_cpuutilization_maximum[5m]) > 7" },
-  { name = "Low Freeable Memory in RDS", expr = "max by (name, namespace, node) (aws_rds_freeable_memory[5m]) < 20" },
-  { name = "Node Status Check in RDS", expr = "max by (name, namespace, node) (aws_rds_node_status[5m]) != 1" }
-]
+    { name = "Out of sync applications in ArgoCD", expr = "count by(name, node, namespace) (rate(argocd_app_info{sync_status=\"OutOfSync\"}[1m])) > 0", severity = "warning" },
+    { name = "High CPU Utilization in RDS", expr = "max by (name, namespace, node) (aws_rds_cpuutilization_maximum[5m]) > 7", severity = "warning" },
+    { name = "Low Freeable Memory in RDS", expr = "max by (name, namespace, node) (aws_rds_freeable_memory[5m]) < 20", severity = "warning" },
+    { name = "Node Status Check in RDS", expr = "max by (name, namespace, node) (aws_rds_node_status[5m]) != 1", severity = "warning" }
+
+  ]
 }

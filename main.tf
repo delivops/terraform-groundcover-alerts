@@ -20,4 +20,9 @@ locals {
     "h" = 3600
     "d" = 86400
   }
+  severity_map = {
+    "critical" = "P2"
+    "warning"  = "P3"
+    "info"     = "P4"
+  }
 }
