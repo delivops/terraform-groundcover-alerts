@@ -68,11 +68,12 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_alerts"></a> [alerts](#input\_alerts) | List of alert names and expressions | <pre>list(<br/>    object({<br/>      name = string<br/>      expr = string<br/>    })<br/>  )</pre> | n/a | yes |
+| <a name="input_alerts"></a> [alerts](#input\_alerts) | List of alert names and expressions | <pre>list(<br/>    object({<br/>      name = string<br/>      expr = string<br/>      severity = string<br/>    })<br/>  )</pre> | n/a | yes |
 | <a name="input_client_name"></a> [client\_name](#input\_client\_name) | Name of the client | `string` | n/a | yes |
 | <a name="input_cluster_name"></a> [cluster\_name](#input\_cluster\_name) | Name of the cluster | `string` | n/a | yes |
 | <a name="input_email_points"></a> [email\_points](#input\_email\_points) | List of email addresses | `list(string)` | `[]` | no |
 | <a name="input_folder_name"></a> [folder\_name](#input\_folder\_name) | Name of the Grafana folder | `string` | n/a | yes |
+| <a name="input_opsgenie_points"></a> [opsgenie\_points](#input\_opsgenie\_points) | List of opsgenie API keys | `list(string)` | `[]` | no |
 | <a name="input_service_account"></a> [service\_account](#input\_service\_account) | Service account for the alerts | `string` | n/a | yes |
 | <a name="input_slack_points"></a> [slack\_points](#input\_slack\_points) | List of Slack webhook URLs | `list(string)` | `[]` | no |
 
