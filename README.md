@@ -80,7 +80,7 @@ No modules.
 | <a name="input_cluster_name"></a> [cluster\_name](#input\_cluster\_name) | Name of the cluster | `string` | n/a | yes |
 | <a name="input_email_points"></a> [email\_points](#input\_email\_points) | List of email addresses | `list(string)` | `[]` | no |
 | <a name="input_folder_name"></a> [folder\_name](#input\_folder\_name) | Name of the Grafana folder | `string` | n/a | yes |
-| <a name="input_logs_alerts"></a> [logs\_alerts](#input\_logs\_alerts) | List of log alert names and expressions | <pre>list(<br/>    object({<br/>      name                = string<br/>      string_attributes   = list(string)<br/>      severity            = string<br/>      interval_in_minutes = string<br/>      regex_attribute     = map(string)<br/>      workload            = string<br/>    })<br/>  )</pre> | n/a | yes |
+| <a name="input_logs_alerts"></a> [logs\_alerts](#input\_logs\_alerts) | List of log alert names and expressions | <pre>list(<br/>    object({<br/>      name                = string<br/>      string_attributes   = list(string)<br/>      severity            = string<br/>      interval_in_minutes = string<br/>      attributes_filters  = map(string)<br/>      workloads_filter    = string<br/>    })<br/>  )</pre> | n/a | yes |
 | <a name="input_opsgenie_points"></a> [opsgenie\_points](#input\_opsgenie\_points) | List of opsgenie API keys | `list(string)` | `[]` | no |
 | <a name="input_service_account"></a> [service\_account](#input\_service\_account) | Service account for the alerts | `string` | n/a | yes |
 | <a name="input_slack_points"></a> [slack\_points](#input\_slack\_points) | List of Slack webhook URLs | `list(string)` | `[]` | no |
