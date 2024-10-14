@@ -1,12 +1,12 @@
 
 module "all_alerts" {
   source          = "delivops/alerts/groundcover"
-  version         = "0.0.6"
-  service_account = var.service_account
+  version         = "0.0.7"
+  service_account = "xxx"
   client_name     = "delivops"
   cluster_name    = "prod"
   folder_name     = "Alerts"
-  opsgenie_points = [var.ops_genie_api_key]
+  opsgenie_points = ["xxx"]
   slack_points    = ["xxx"]
   email_points    = ["osnat@gmail.com"]
   alerts = [
@@ -16,4 +16,9 @@ module "all_alerts" {
     { name = "Node Status Check in RDS", expr = "max by (name, namespace, node) (aws_rds_node_status[5m]) != 1", severity = "warning" }
 
   ]
+  logs_alerts = [
+    { name = "Logs in App yace", string_attributes = ["level", "region"], severity = "warning", interval_in_minutes = "500", regex_attribute = { region : "%eu%", level : "info" }, workload = "yace-yet-another-cloudwatch-exporter" },
+    { name = "Logs in App 12", string_attributes = ["message", "level", "name"], severity = "warning", interval_in_minutes = "5", regex_attribute = { message : "error*", level : "high" }, workload = "workload1" }
+  ]
 }
+

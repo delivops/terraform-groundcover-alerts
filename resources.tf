@@ -1,5 +1,10 @@
 resource "grafana_folder" "alerts" {
+  count = length(var.alerts) > 0 ? 1 : 0
   title = var.folder_name
+}
+resource "grafana_folder" "logs_alerts" {
+  count = length(var.logs_alerts) > 0 ? 1 : 0
+  title = "${var.folder_name}_logs"
 }
 
 resource "grafana_contact_point" "combined" {
@@ -33,8 +38,9 @@ resource "grafana_contact_point" "combined" {
   }
 }
 resource "grafana_rule_group" "alerts" {
+  count            = length(var.alerts) > 0 ? 1 : 0
   name             = "${var.client_name}_${var.cluster_name}_alerts"
-  folder_uid       = grafana_folder.alerts.uid
+  folder_uid       = grafana_folder.alerts[0].uid
   interval_seconds = 60
 
   dynamic "rule" {
@@ -83,3 +89,66 @@ resource "grafana_rule_group" "alerts" {
     }
   }
 }
+resource "grafana_rule_group" "logs_alerts" {
+  count            = length(var.logs_alerts) > 0 ? 1 : 0
+  name             = "${var.client_name}_${var.cluster_name}_logs_alerts"
+  folder_uid       = grafana_folder.logs_alerts[0].uid
+  interval_seconds = 60
+
+  dynamic "rule" {
+    for_each = var.logs_alerts
+    content {
+      name           = rule.value.name
+      condition      = "A"
+      for            = "${rule.value.interval_in_minutes}m"
+      no_data_state  = "OK"
+      exec_err_state = "OK"
+
+      data {
+        ref_id = "A"
+        relative_time_range {
+          from = 600
+          to   = 0
+        }
+        datasource_uid = data.grafana_data_source.clickhouse.uid
+        model = jsonencode({
+          datasource = {
+            type = "clickhouse"
+            uid  = data.grafana_data_source.clickhouse.uid
+          }
+          editorType = "sql"
+          format     = 1
+          intervalMs = 1000
+          query_type = "table"
+          rawSql = <<-EOT
+SELECT 
+  count(*) as errors,
+  ${join(", ", [for attr in rule.value.string_attributes : "string_attributes['${attr}'] as ${attr}"])}
+FROM logs
+WHERE $__timeFilter(timestamp) 
+  ${rule.value.workload != "" ? "and (workload='${rule.value.workload}')" : ""}
+  ${length(rule.value.regex_attribute) > 0 ? format("and %s", join(" and ", [
+          for k, v in rule.value.regex_attribute :
+          "string_attributes['${k}'] LIKE '${v}'"
+    ])) : ""}
+GROUP BY ${join(", ", [for attr in rule.value.string_attributes : "string_attributes['${attr}']"])}
+EOT
+})
+query_type = "table"
+}
+annotations = {}
+labels = {
+  severity    = rule.value.severity
+  og_priority = local.severity_map[rule.value.severity]
+}
+notification_settings {
+  contact_point   = grafana_contact_point.combined.name
+  group_by        = ["workload"]
+  group_wait      = "45s"
+  group_interval  = "6m"
+  repeat_interval = "12h"
+}
+}
+}
+}
+

@@ -38,10 +38,24 @@ variable "alerts" {
   description = "List of alert names and expressions"
   type = list(
     object({
-      name = string
-      expr = string
+      name     = string
+      expr     = string
       severity = string
     })
   )
+}
+variable "logs_alerts" {
+  description = "List of log alert names and expressions"
+  type = list(
+    object({
+      name                = string
+      string_attributes   = list(string)
+      severity            = string
+      interval_in_minutes = string
+      regex_attribute     = map(string)
+      workload            = string
+    })
+  )
+
 }
 
