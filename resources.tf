@@ -126,9 +126,9 @@ SELECT
   ${join(", ", [for attr in rule.value.string_attributes : "string_attributes['${attr}'] as ${attr}"])}
 FROM logs
 WHERE $__timeFilter(timestamp) 
-  ${rule.value.workload != "" ? "and (workload='${rule.value.workload}')" : ""}
-  ${length(rule.value.regex_attribute) > 0 ? format("and %s", join(" and ", [
-          for k, v in rule.value.regex_attribute :
+  ${rule.value.workloads_filter != "" ? "and (workload='${rule.value.workloads_filter}')" : ""}
+  ${length(rule.value.attributes_filters) > 0 ? format("and %s", join(" and ", [
+          for k, v in rule.value.attributes_filters :
           "string_attributes['${k}'] LIKE '${v}'"
     ])) : ""}
 GROUP BY ${join(", ", [for attr in rule.value.string_attributes : "string_attributes['${attr}']"])}
@@ -143,7 +143,7 @@ labels = {
 }
 notification_settings {
   contact_point   = grafana_contact_point.combined.name
-  group_by        = ["workload"]
+  group_by        = ["workloads_filter"]
   group_wait      = "45s"
   group_interval  = "6m"
   repeat_interval = "12h"
