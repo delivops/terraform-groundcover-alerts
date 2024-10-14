@@ -17,8 +17,9 @@ module "all_alerts" {
 
   ]
   logs_alerts = [
-    { name = "Logs in App yace", string_attributes = ["level", "region"], severity = "warning", interval_in_minutes = "500", regex_attribute = { region : "%eu%", level : "info" }, workload = "yace-yet-another-cloudwatch-exporter" },
-    { name = "Logs in App 12", string_attributes = ["message", "level", "name"], severity = "warning", interval_in_minutes = "5", regex_attribute = { message : "error*", level : "high" }, workload = "workload1" }
+    { name = "Logs in App yace", string_attributes = ["level", "region"], severity = "warning", interval_in_minutes = "500", attributes_filters = { region : "%eu%", level : "info" }, workloads_filter = "yace-yet-another-cloudwatch-exporter%" },
+    { name = "Logs in App 12", string_attributes = ["message", "level", "name"], severity = "warning", interval_in_minutes = "5", attributes_filters = { message : "error*", level : "high" }, workloads_filter = "workload1" }
   ]
+
 }
 

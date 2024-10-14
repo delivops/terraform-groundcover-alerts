@@ -52,8 +52,8 @@ variable "logs_alerts" {
       string_attributes   = list(string)
       severity            = string
       interval_in_minutes = string
-      regex_attribute     = map(string)
-      workload            = string
+      attributes_filters  = map(string)
+      workloads_filter    = string
     })
   )
 
