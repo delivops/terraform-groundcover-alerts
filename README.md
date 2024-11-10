@@ -47,13 +47,13 @@ module "all_alerts" {
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_grafana"></a> [grafana](#requirement\_grafana) | ~> 3.11.0 |
+| <a name="requirement_grafana"></a> [grafana](#requirement\_grafana) | ~> 3.13.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_grafana"></a> [grafana](#provider\_grafana) | ~> 3.11.0 |
+| <a name="provider_grafana"></a> [grafana](#provider\_grafana) | ~> 3.13.0 |
 
 ## Modules
 
