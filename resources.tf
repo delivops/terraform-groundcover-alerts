@@ -36,6 +36,9 @@ resource "grafana_contact_point" "combined" {
       addresses = [email.value]
     }
   }
+  lifecycle {
+    ignore_changes = [slack, opsgenie, email]
+  }
 }
 resource "grafana_rule_group" "alerts" {
   count            = length(var.alerts) > 0 ? 1 : 0
