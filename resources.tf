@@ -8,6 +8,7 @@ resource "grafana_folder" "logs_alerts" {
 }
 
 resource "grafana_contact_point" "combined" {
+  disable_provenance = true
   name = "${var.client_name}_${var.cluster_name}_contact_point"
   dynamic "slack" {
     for_each = var.slack_points
