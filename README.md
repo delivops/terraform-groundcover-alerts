@@ -39,18 +39,17 @@ module "all_alerts" {
 ```
 
 <!-- BEGIN_TF_DOCS -->
-
 ## Requirements
 
-| Name                                                               | Version  |
-| ------------------------------------------------------------------ | -------- |
-| <a name="requirement_grafana"></a> [grafana](#requirement_grafana) | >= 3.7.0 |
+| Name | Version |
+|------|---------|
+| <a name="requirement_grafana"></a> [grafana](#requirement\_grafana) | >= 3.7.0 |
 
 ## Providers
 
-| Name                                                         | Version  |
-| ------------------------------------------------------------ | -------- |
-| <a name="provider_grafana"></a> [grafana](#provider_grafana) | >= 3.7.0 |
+| Name | Version |
+|------|---------|
+| <a name="provider_grafana"></a> [grafana](#provider\_grafana) | >= 3.7.0 |
 
 ## Modules
 
@@ -58,36 +57,26 @@ No modules.
 
 ## Resources
 
-| Name                                                                                                                           | Type        |
-| ------------------------------------------------------------------------------------------------------------------------------ | ----------- |
-| [grafana_contact_point.combined](https://registry.terraform.io/providers/grafana/grafana/latest/docs/resources/contact_point)  | resource    |
-| [grafana_folder.alerts](https://registry.terraform.io/providers/grafana/grafana/latest/docs/resources/folder)                  | resource    |
-| [grafana_folder.logs_alerts](https://registry.terraform.io/providers/grafana/grafana/latest/docs/resources/folder)             | resource    |
-| [grafana_rule_group.alerts](https://registry.terraform.io/providers/grafana/grafana/latest/docs/resources/rule_group)          | resource    |
-| [grafana_rule_group.logs_alerts](https://registry.terraform.io/providers/grafana/grafana/latest/docs/resources/rule_group)     | resource    |
+| Name | Type |
+|------|------|
+| [grafana_rule_group.alerts](https://registry.terraform.io/providers/grafana/grafana/latest/docs/resources/rule_group) | resource |
 | [grafana_data_source.clickhouse](https://registry.terraform.io/providers/grafana/grafana/latest/docs/data-sources/data_source) | data source |
 | [grafana_data_source.prometheus](https://registry.terraform.io/providers/grafana/grafana/latest/docs/data-sources/data_source) | data source |
 
 ## Inputs
 
-| Name                                                                           | Description                             | Type                                                                                                                                                                                                                                 | Default | Required |
-| ------------------------------------------------------------------------------ | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------- | :------: |
-| <a name="input_alerts"></a> [alerts](#input_alerts)                            | List of alert names and expressions     | <pre>list(<br/> object({<br/> name = string<br/> expr = string<br/> severity = string<br/> })<br/> )</pre>                                                                                                                           | n/a     |   yes    |
-| <a name="input_client_name"></a> [client_name](#input_client_name)             | Name of the client                      | `string`                                                                                                                                                                                                                             | n/a     |   yes    |
-| <a name="input_cluster_name"></a> [cluster_name](#input_cluster_name)          | Name of the cluster                     | `string`                                                                                                                                                                                                                             | n/a     |   yes    |
-| <a name="input_email_points"></a> [email_points](#input_email_points)          | List of email addresses                 | `list(string)`                                                                                                                                                                                                                       | `[]`    |    no    |
-| <a name="input_folder_name"></a> [folder_name](#input_folder_name)             | Name of the Grafana folder              | `string`                                                                                                                                                                                                                             | n/a     |   yes    |
-| <a name="input_logs_alerts"></a> [logs_alerts](#input_logs_alerts)             | List of log alert names and expressions | <pre>list(<br/> object({<br/> name = string<br/> string_attributes = list(string)<br/> severity = string<br/> interval_in_minutes = string<br/> attributes_filters = map(string)<br/> workloads_filter = string<br/> })<br/> )</pre> | n/a     |   yes    |
-| <a name="input_opsgenie_points"></a> [opsgenie_points](#input_opsgenie_points) | List of opsgenie API keys               | `list(string)`                                                                                                                                                                                                                       | `[]`    |    no    |
-| <a name="input_service_account"></a> [service_account](#input_service_account) | Service account for the alerts          | `string`                                                                                                                                                                                                                             | n/a     |   yes    |
-| <a name="input_slack_points"></a> [slack_points](#input_slack_points)          | List of Slack webhook URLs              | `list(string)`                                                                                                                                                                                                                       | `[]`    |    no    |
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_alerts"></a> [alerts](#input\_alerts) | List of alert names and expressions | <pre>list(<br/>    object({<br/>      name     = string<br/>      expr     = string<br/>      severity = string<br/>    })<br/>  )</pre> | n/a | yes |
+| <a name="input_cluster_name"></a> [cluster\_name](#input\_cluster\_name) | Name of the cluster | `string` | n/a | yes |
+| <a name="input_contact_point_name"></a> [contact\_point\_name](#input\_contact\_point\_name) | Name of the contact point | `string` | n/a | yes |
+| <a name="input_folder_uid"></a> [folder\_uid](#input\_folder\_uid) | Uid of the Grafana folder | `string` | n/a | yes |
+| <a name="input_rule_group_name"></a> [rule\_group\_name](#input\_rule\_group\_name) | Name of the rule group | `string` | n/a | yes |
+| <a name="input_service_account"></a> [service\_account](#input\_service\_account) | Service account for the alerts | `string` | n/a | yes |
 
 ## Outputs
 
-| Name                                                                                      | Description                       |
-| ----------------------------------------------------------------------------------------- | --------------------------------- |
-| <a name="output_contact_point_name"></a> [contact_point_name](#output_contact_point_name) | Name of the created contact point |
-
+No outputs.
 <!-- END_TF_DOCS -->
 
 ## information
