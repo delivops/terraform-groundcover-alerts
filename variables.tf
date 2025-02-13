@@ -33,3 +33,8 @@ variable "alerts" {
   )
 }
 
+variable "grafana_url" {
+  description = "Name of the url for Grafana"
+  type        = string
+  default     = "https://app.groundcover.com/grafana"
+}

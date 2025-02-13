@@ -1,5 +1,5 @@
 provider "grafana" {
-  url  = "https://app.groundcover.com/grafana"
+  url  = var.grafana_url
   auth = var.service_account
 
 }
