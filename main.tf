@@ -7,12 +7,9 @@ terraform {
   }
 }
 data "grafana_data_source" "prometheus" {
-  name = format("Prometheus@%s", var.cluster_name)
+  name = var.cluster_name
 }
 
-data "grafana_data_source" "clickhouse" {
-  name = format("ClickHouse@%s", var.cluster_name)
-}
 locals {
   duration_multiplier = {
     "s" = 1
@@ -21,11 +18,9 @@ locals {
     "d" = 86400
   }
   severity_map = {
+    "error"    = "P1"
     "critical" = "P2"
     "warning"  = "P3"
     "info"     = "P4"
   }
-
-
-
 }
